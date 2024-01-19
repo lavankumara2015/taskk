@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Upload with Cropping</title>
+ 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+</head>
+<body>
+    <form action="upload.php" method="post" enctype="multipart/form-data" onsubmit="return handleFormSubmit()">
+        <label for="photo">Select a photo:</label>
+        <input type="file" id="photo" name="photo" accept="image/*" onchange="initCropper(event)">
+        <div>
+            <canvas id="cropperCanvas" style="max-width: 100%; max-height: 400px;"></canvas>
+        </div>
+        <input type="hidden" id="croppedImage" name="croppedImage">
+        <input type="submit" value="Upload">
+    </form>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <script>
+        var cropper;
+
+        function initCropper(event) {
+            var input = event.target;
+            var cropperCanvas = document.getElementById('cropperCanvas');
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    cropperCanvas.style.display = 'block';
+
+                    cropper = new Cropper(cropperCanvas, {
+                        aspectRatio: 1,
+                        viewMode: 1,
+                        autoCropArea: 0.8,
+                        crop: function (event) {
+                            document.getElementById('croppedImage').value = cropper.getCroppedCanvas().toDataURL();
+                        }
+                    });
+
+                    cropper.replace(e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                cropperCanvas.style.display = 'none';
+            }
+        }
+
+        function handleFormSubmit() {
+            var input = document.getElementById('photo');
+            
+            if (input.files && input.files[0]) {
+                var image;
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    image = e.target.result;
+
+                    console.log(e.target.result);
+
+                    
+                    localStorage.setItem('uploadedImageDataUrl', document.getElementById('croppedImage').value);
+
+                    alert('Image uploaded and cropped successfully!');
+
+                    
+                    window.location.href = './userverify.html';
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                alert('Please select a valid image.');
+            }
+            
+            return false;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Second Page</title>
+</head>
+<body>
+    <h2>User Image</h2>
+    <img id="uploadedImage" alt="Uploaded Image" style="max-width: 100%; height: auto;">
+
+    <script>
+        var dataUrl = localStorage.getItem('uploadedImageDataUrl');
+        var uploadedImage = document.getElementById('uploadedImage');
+
+        if (dataUrl) {
+            uploadedImage.src = dataUrl;
+            location.assign("./total.html")
+        } else {
+            console.error('Error: Unable to retrieve valid data URL for the image.');
+        }
+    </script>
+</body>
+</html>

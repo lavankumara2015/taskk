@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Create User</title>
+    <style>
+        input {
+            width: 210%;
+            height: 4.5vh;
+            margin-top: 10%;
+            border: 1px solid rgb(228, 224, 224);
+        }
+        .container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+        }
+        .logo {
+            height: 100vh;
+            width: 60%;
+            background-color: blue;
+        }
+        .admin {
+            width: 100%;
+            margin-left: 70%;
+            margin-top: 120%;
+        }
+        .admin h1 {
+            width: 100%;
+            text-align: center;
+            color: #888484;
+            margin-left: 50%;
+        }
+        .login {
+            width: 100%;
+            height: 5vh;
+            margin-top: 10%;
+            background-color: rgb(151, 151, 187);
+            color: aliceblue;
+            border: 0px;
+            border-radius: 6px;
+            cursor: pointer; 
+        }
+
+        .adminView {
+            width: 50%;
+            height: 100vh;
+            background-color: blue;
+            margin-left: 40%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="user">
+            <div class="admin">
+                <form>
+            <h1>Create User</h1>
+             <input type="text" name="" id="adminUser" placeholder="User ID" required><br>
+           <input type="password" name="" id="" placeholder="Password" required>
+           <input type="submit" class="login" value="Register">
+             </form>
+            </div>
+        </div>
+        <div class="adminView">
+            <button id="view">View Users</button>
+        </div>
+    </div>
+    <script>
+        document.forms[0].addEventListener("submit", (e) => {
+            e.preventDefault();
+            let userId = e.target[0].value;
+            let userPassword = e.target[1].value;
+            if (userId.trim() === "" || userPassword.trim() === "") {
+                alert("Please enter both User ID and Password.");
+                return;
+            }
+
+            var registeredUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+            registeredUsers.push({ username: userId, password: userPassword });
+            localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+            window.location.assign("./user.html");
+        });
+
+        let view = document.getElementById("view");
+        view.addEventListener("click", () => {
+            window.location.assign("./total.html");
+        });
+    </script>
+</body>
+
+</html>
